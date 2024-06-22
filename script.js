@@ -1,11 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
   const conversations = [
-    { title: "Conversación 1 - Título largo", date: "2024-06-21" },
-    { title: "Conversación 2", date: "2024-06-20" },
-    { title: "Conversación 3 - Título largo", date: "2024-06-13" },
-    { title: "Conversación 4 - Título largo", date: "2024-05-25" },
-    { title: "Conversación 5 - Título largo", date: "2024-06-13" },
-    { title: "Conversación 6 - Título largo", date: "2024-01-25" },
+    {
+      title: "Conversación 1 - Título largo",
+      chatMessages: [
+        "¡Hola! Quiero saber información sobre la siguiente molécula: adrenalina",
+        "La adrenalina, también conocida como epinefrina, es una hormona y un neurotransmisor crucial en la respuesta de 'lucha o huida' del cuerpo humano. Aquí hay una descripción detallada:",
+      ],
+      date: "2024-06-22",
+    },
+    {
+      title: "Conversación 2",
+      chatMessages: [],
+      date: "2024-06-19",
+    },
+    {
+      title: "Conversación 3 - Título largo",
+      chatMessages: [],
+      date: "2024-06-2",
+    },
   ];
 
   const menuItems = {
@@ -22,11 +34,12 @@ document.addEventListener("DOMContentLoaded", () => {
    * Creates a conversation element with a title and appends it to the menu container.
    *
    * @param {string} title - The title of the conversation.
+   * @param {string[]} chatMessages - The chat messages of the conversation.
+   * @param {string} date - The date of the conversation.
    * @return {HTMLElement} The created conversation element.
    */
-  function createConversation(title) {
+  function createConversation(title, chatMessages = [], date) {
     const container = document.getElementById("menuConteiner");
-
     const div = document.createElement("div");
     div.className = "dropend menuItem";
 
@@ -40,7 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
     dropdownButton.className =
       "btn dropdown-button dropdown-toggle dropdown-toggle-split";
     dropdownButton.setAttribute("data-bs-toggle", "dropdown");
+    dropdownButton.setAttribute("aria-haspopup", "true");
     dropdownButton.setAttribute("aria-expanded", "false");
+    dropdownButton.setAttribute("data-bs-offset", `0,10`);
 
     const svgNS = "http://www.w3.org/2000/svg";
 
@@ -65,16 +80,22 @@ document.addEventListener("DOMContentLoaded", () => {
     div.appendChild(conversation);
     div.appendChild(dropdownButton);
 
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    const clonedElement = dropdownMenu.cloneNode(true);
+
+    div.appendChild(clonedElement);
+
     container.appendChild(div);
 
-    return div;
+    return { node: div, date };
   }
 
   /**
-   * Categorizes conversations into different time periods and appends them to the appropriate menu item.
+   * Categorizes conversations into different time periods and appends them to the appropriate chat group.
+   * @param {Object} conversation
    * @return {void}
    */
-  function categorizeConversations() {
+  function categorizeConversation(conversation) {
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
@@ -83,46 +104,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const prev30days = new Date(today);
     prev30days.setDate(today.getDate() - 30);
 
-    // Loop through each conversation and sort them into the appropriate menu item
-    conversations.forEach((conversation) => {
-      const dateString = conversation.date;
-      const dateParts = dateString.split("-");
-      const convDate = new Date(
-        dateParts[0],
-        dateParts[1] - 1,
-        dateParts[2],
-        12
-      );
-      // const li = document.createElement("li");
-      // li.textContent = conversation.title;
-      // li.role = "button";
-      const div = createConversation(conversation.title);
-      const dropdownMenu = document.getElementById("dropdownMenu");
-      const clonedElement = dropdownMenu.cloneNode(true);
-
-      div.appendChild(clonedElement);
-
-      if (convDate.toDateString() === today.toDateString()) {
-        menuItems.today.appendChild(div);
-      } else if (convDate.toDateString() === yesterday.toDateString()) {
-        menuItems.yesterday.appendChild(div);
-      } else if (convDate > prev7days) {
-        menuItems.prev7days.appendChild(div);
-      } else if (convDate > prev30days) {
-        menuItems.prev30days.appendChild(div);
-      } else {
-        menuItems.older.appendChild(div);
-      }
-    });
-
-    // Hide empty sections
-    document.querySelectorAll(".menu > span").forEach((span) => {
-      const ul = span.nextElementSibling;
-      if (ul.children.length === 0) {
-        span.style.display = "none";
-        ul.style.display = "none";
-      }
-    });
+    const dateParts = conversation.date.split("-");
+    const convDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2], 12);
+    if (convDate.toDateString() === today.toDateString()) {
+      menuItems.today.appendChild(conversation.node);
+    } else if (convDate.toDateString() === yesterday.toDateString()) {
+      menuItems.yesterday.appendChild(conversation.node);
+    } else if (convDate > prev7days) {
+      menuItems.prev7days.appendChild(conversation.node);
+    } else if (convDate > prev30days) {
+      menuItems.prev30days.appendChild(conversation.node);
+    } else {
+      menuItems.older.appendChild(conversation.node);
+    }
   }
 
   /**
@@ -152,33 +146,37 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  categorizeConversations();
+  conversations.forEach((conversation) => {
+    const date = conversation.date;
+    const chat = createConversation(
+      conversation.title,
+      conversation.chatMessages,
+      date
+    );
+    categorizeConversation(chat, date);
+  });
+
   addEventListeners();
+
+  //helpers
+  // Hide empty sections
+  document.querySelectorAll(".menu > span").forEach((span) => {
+    const ul = span.nextElementSibling;
+    if (ul.children.length === 0) {
+      span.style.display = "none";
+      ul.style.display = "none";
+    }
+  });
 
   // Attach dropdown to body on show
   $(".dropend .dropdown-toggle").on("show.bs.dropdown", function () {
     const dropdownMenu = $(this).next(".dropdown-menu");
-    $("body").append(
-      dropdownMenu
-        .css({
-          position: "absolute",
-          left: $(this).offset().left,
-          top: 0,
-        })
-        .detach()
-    );
+    $("body").append(dropdownMenu.detach());
   });
+
   // detach dropdown from body on hide
   $(".dropend .dropdown-toggle").on("hidden.bs.dropdown", function () {
     const dropdownMenu = $(this).next(".dropdown-menu");
-    $(".bs-example").append(
-      dropdownMenu
-        .css({
-          position: "",
-          left: "",
-          top: "",
-        })
-        .detach()
-    );
+    $(".bs-example").append(dropdownMenu.detach());
   });
 });

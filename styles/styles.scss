@@ -1,8 +1,8 @@
 $primary-color: #e9f8ff;
 $secondary-color: #1e2430;
 $accent-color: #5596b4;
+$azul-300: #0074c8;
 $background-color: #d2f1ff;
-$carrot-color: #0074c8;
 $fs-400: 14px;
 $fs-500: 16px;
 $fs-600: 20px;
@@ -44,8 +44,7 @@ ul {
   padding: 0.5rem;
   border: none;
   border-radius: 1rem;
-  transform: translate3d(300px);
-  li {
+  button {
     font-weight: $fw-semibold;
     width: 100%;
     text-align-last: justify;
@@ -68,7 +67,8 @@ ul {
   color: $secondary-color;
   padding-top: 1rem;
   padding-inline: 1.5rem;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
   img {
     width: 235px;
@@ -93,7 +93,7 @@ ul {
     #searchIcon {
       cursor: pointer;
       position: absolute;
-      fill: $carrot-color;
+      fill: azul-300;
       right: 19px;
     }
   }
@@ -118,7 +118,8 @@ ul {
       button {
         white-space: nowrap;
       }
-      &:hover {
+      &:hover,
+      .active {
         background-color: $background-color;
         .dropdown-button {
           display: inline-block;
@@ -133,6 +134,7 @@ ul {
         flex-grow: 0;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-family: inherit;
       }
       .dropdown-button {
         display: none;
@@ -163,39 +165,94 @@ ul {
   flex: 1;
   display: flex;
   flex-direction: column;
-
+  color: $secondary-color;
+  background-color: #fafafa;
+  .profile {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 24px;
+    svg {
+      cursor: pointer;
+    }
+    img {
+      width: 56px;
+      height: 56px;
+      border-radius: 56px;
+    }
+    margin-right: 2.5rem;
+  }
+  .chat-empty {
+    height: 100%;
+    font-size: $fs-600;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    p {
+      line-height: 30px;
+      margin-top: 30px;
+    }
+  }
   .chat-messages {
     flex: 1;
     padding: 20px;
     overflow-y: auto;
   }
 
-  .chat-input {
-    display: flex;
-    padding: 10px;
-    background-color: $secondary-color;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-
-    input {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin-right: 10px;
+  .chat-input-container {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    gap: 16px;
+    margin-bottom: 4.188rem;
+    margin-inline: auto;
+    max-width: 1240px;
+    .chat-input {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      border-radius: 100px;
+      input {
+        width: 100%;
+        border: none;
+        margin-left: 24px;
+        color: $secondary-color;
+        &:focus {
+          outline: none;
+        }
+      }
+      button {
+        border: none;
+        background-color: $primary-color;
+        border-radius: 100px;
+        height: fit-content;
+        margin: 8px;
+        padding: 0;
+        svg {
+          margin: 12px 11px;
+        }
+        .loading {
+          display: none;
+        }
+      }
     }
 
-    button {
-      padding: 10px 20px;
-      background-color: $primary-color;
-      color: $secondary-color;
+    .generate-report {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
       border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-
-      &:hover {
-        background-color: darken($primary-color, 10%);
-      }
+      color: $azul-300;
+      font-size: $fs-500;
+      font-weight: $fw-semibold;
+      background-color: $primary-color;
+      border-radius: 62px;
+      min-width: 200px;
+      padding-block: 1rem;
+      padding-inline: 1.5rem;
     }
   }
 }

@@ -30,22 +30,21 @@ ul {
   padding: 0.5rem;
   border: none;
   border-radius: 1rem;
-  transform: translate3d(300px);
 }
-.dropdown-menu.show li {
+.dropdown-menu.show button {
   font-weight: 600;
   width: 100%;
   text-align-last: justify;
 }
-.dropdown-menu.show li svg {
+.dropdown-menu.show button svg {
   margin-right: 0.5rem;
   fill: inherit;
 }
-.dropdown-menu.show li:hover {
+.dropdown-menu.show button:hover {
   color: #5596b4;
   background-color: #e9f8ff;
 }
-.dropdown-menu.show li:hover > svg * {
+.dropdown-menu.show button:hover > svg * {
   fill: #5596b4;
 }
 
@@ -55,7 +54,8 @@ ul {
   color: #1e2430;
   padding-top: 1rem;
   padding-inline: 1.5rem;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
 }
 .sidebar img {
@@ -81,7 +81,7 @@ ul {
 .sidebar .search-container #searchIcon {
   cursor: pointer;
   position: absolute;
-  fill: #0074c8;
+  fill: azul-300;
   right: 19px;
 }
 .sidebar .dropend .dropdown-toggle::after {
@@ -106,10 +106,12 @@ ul {
 .sidebar .menu .menuItem button {
   white-space: nowrap;
 }
-.sidebar .menu .menuItem:hover {
+.sidebar .menu .menuItem:hover,
+.sidebar .menu .menuItem .active {
   background-color: #d2f1ff;
 }
-.sidebar .menu .menuItem:hover .dropdown-button {
+.sidebar .menu .menuItem:hover .dropdown-button,
+.sidebar .menu .menuItem .active .dropdown-button {
   display: inline-block;
 }
 .sidebar .menu .menuItem:first-child {
@@ -120,6 +122,7 @@ ul {
   flex-grow: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-family: inherit;
 }
 .sidebar .menu .menuItem .dropdown-button {
   display: none;
@@ -146,36 +149,94 @@ ul {
   flex: 1;
   display: flex;
   flex-direction: column;
+  color: #1e2430;
+  background-color: #fafafa;
+}
+.chat-area .profile {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+  margin-right: 2.5rem;
+}
+.chat-area .profile svg {
+  cursor: pointer;
+}
+.chat-area .profile img {
+  width: 56px;
+  height: 56px;
+  border-radius: 56px;
+}
+.chat-area .chat-empty {
+  height: 100%;
+  font-size: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.chat-area .chat-empty p {
+  line-height: 30px;
+  margin-top: 30px;
 }
 .chat-area .chat-messages {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
 }
-.chat-area .chat-input {
+.chat-area .chat-input-container {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  gap: 16px;
+  margin-bottom: 4.188rem;
+  margin-inline: auto;
+  max-width: 1240px;
+}
+.chat-area .chat-input-container .chat-input {
+  width: 100%;
   display: flex;
-  padding: 10px;
-  background-color: #1e2430;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  background-color: #fff;
+  border-radius: 100px;
 }
-.chat-area .chat-input input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 10px;
-}
-.chat-area .chat-input button {
-  padding: 10px 20px;
-  background-color: #e9f8ff;
-  color: #1e2430;
+.chat-area .chat-input-container .chat-input input {
+  width: 100%;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  margin-left: 24px;
+  color: #1e2430;
 }
-.chat-area .chat-input button:hover {
-  background-color: #b6e8ff;
+.chat-area .chat-input-container .chat-input input:focus {
+  outline: none;
+}
+.chat-area .chat-input-container .chat-input button {
+  border: none;
+  background-color: #e9f8ff;
+  border-radius: 100px;
+  height: fit-content;
+  margin: 8px;
+  padding: 0;
+}
+.chat-area .chat-input-container .chat-input button svg {
+  margin: 12px 11px;
+}
+.chat-area .chat-input-container .chat-input button .loading {
+  display: none;
+}
+.chat-area .chat-input-container .generate-report {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  border: none;
+  color: #0074c8;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #e9f8ff;
+  border-radius: 62px;
+  min-width: 200px;
+  padding-block: 1rem;
+  padding-inline: 1.5rem;
 }
 
 /*# sourceMappingURL=styles.css.map */
