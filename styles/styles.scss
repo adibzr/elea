@@ -7,38 +7,79 @@ $fs-400: 14px;
 $fs-500: 16px;
 $fs-600: 20px;
 $fw-regular: 400;
+$fw-semibold: 600;
 $fw-bold: 700;
+$bs-body-font-size: 56px;
+$bs-body-font-weight: $fw-regular;
+$bs-body-line-height: 24px;
+$bs-body-color: transparent;
 
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
 body {
   font-variant-numeric: lining-nums proportional-nums;
   font-family: "Raleway", sans-serif;
+  height: 100dvh;
 }
 
-.container {
+ol,
+ul {
+  padding: 0;
+  margin: 0;
+}
+.wrapper {
   display: flex;
+  padding: 0;
+  margin: 0;
   font-size: $fs-500;
+  line-height: 24px;
+  height: 100%;
 }
-
+.dropdown-menu.show {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 1rem;
+  transform: translate3d(300px);
+  li {
+    font-weight: $fw-semibold;
+    width: 100%;
+    text-align-last: justify;
+    svg {
+      margin-right: 0.5rem;
+      fill: inherit;
+    }
+    &:hover {
+      color: $accent-color;
+      background-color: $primary-color;
+    }
+    &:hover > svg * {
+      fill: $accent-color;
+    }
+  }
+}
 .sidebar {
   width: 316px;
   background-color: $primary-color;
   color: $secondary-color;
-  height: 100vh;
-  padding: 20px;
+  padding-top: 1rem;
+  padding-inline: 1.5rem;
+  display: grid;
+  overflow-y: auto;
   img {
     width: 235px;
     height: auto;
+    justify-self: center;
+    margin-bottom: 4rem;
   }
   .search-container {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 2.5rem;
     position: relative;
     #searchInput {
       font-family: inherit;
@@ -56,18 +97,46 @@ body {
       right: 19px;
     }
   }
-
+  .dropend .dropdown-toggle::after {
+    display: none;
+  }
   .menu {
-    .menu-item li {
-      list-style-type: none;
+    > div {
+      display: flex;
+      flex-direction: column;
+    }
+    .menuItem {
+      max-width: 250px;
       color: $secondary-color;
-      padding: 10px 15px;
+      padding: 8px;
       cursor: pointer;
-      border-radius: 5px;
+      border-radius: 8px;
       transition: background-color 0.3s;
-
+      display: flex;
+      position: relative;
+      overflow: hidden;
+      button {
+        white-space: nowrap;
+      }
       &:hover {
         background-color: $background-color;
+        .dropdown-button {
+          display: inline-block;
+        }
+      }
+      &:first-child {
+        margin-top: 1rem;
+      }
+      margin-bottom: 1rem;
+      .chat-title {
+        text-align: left;
+        flex-grow: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .dropdown-button {
+        display: none;
+        margin-inline: 0.5rem;
       }
     }
     span {
@@ -76,19 +145,24 @@ body {
       color: $accent-color;
     }
   }
+
+  .btn {
+    border: none;
+    padding: 0;
+  }
+  .archivo {
+    svg {
+      margin-right: 7px;
+    }
+    margin-top: 1rem;
+    margin-bottom: 4.688rem;
+  }
 }
 
 .chat-area {
   flex: 1;
   display: flex;
   flex-direction: column;
-
-  .chat-header {
-    padding: 20px;
-    background-color: $primary-color;
-    color: $secondary-color;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
 
   .chat-messages {
     flex: 1;

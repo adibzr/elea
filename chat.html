@@ -10,11 +10,17 @@
       href="https://fonts.googleapis.com/css2?family=Raleway&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="styles/styles.css" />
   </head>
   <body>
-    <div class="container">
-      <div class="sidebar">
+    <div class="container-fluid wrapper">
+      <aside class="sidebar">
         <img src="images/Elea-logo.png" alt="logo" />
         <div class="search-container">
           <input
@@ -36,19 +42,134 @@
             />
           </svg>
         </div>
-        <ul class="menu">
-          <span>Hoy</span>
-          <ul class="menu-item" id="today"></ul>
-          <span>Ayer</span>
-          <ul class="menu-item" id="yesterday"></ul>
-          <span>Últimos 7 días</span>
-          <ul class="menu-item" id="prev7days"></ul>
-          <span>Últimos 30 días</span>
-          <ul class="menu-item" id="prev30days"></ul>
-          <span>Ateriores</span>
-          <ul class="menu-item" id="older"></ul>
+        <!-- menu dropdown -->
+        <ul id="dropdownMenu" class="dropdown-menu">
+          <li type="button" class="btn archivo">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <mask
+                id="mask0_615_89"
+                style="mask-type: alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="24"
+                height="24"
+              >
+                <rect width="24" height="24" />
+              </mask>
+              <g mask="url(#mask0_615_89)">
+                <path
+                  d="M12 18L16 14L14.6 12.6L13 14.2V10H11V14.2L9.4 12.6L8 14L12 18ZM5 8V19H19V8H5ZM5 21C4.45 21 3.97917 20.8042 3.5875 20.4125C3.19583 20.0208 3 19.55 3 19V6.525C3 6.29167 3.0375 6.06667 3.1125 5.85C3.1875 5.63333 3.3 5.43333 3.45 5.25L4.7 3.725C4.88333 3.49167 5.1125 3.3125 5.3875 3.1875C5.6625 3.0625 5.95 3 6.25 3H17.75C18.05 3 18.3375 3.0625 18.6125 3.1875C18.8875 3.3125 19.1167 3.49167 19.3 3.725L20.55 5.25C20.7 5.43333 20.8125 5.63333 20.8875 5.85C20.9625 6.06667 21 6.29167 21 6.525V19C21 19.55 20.8042 20.0208 20.4125 20.4125C20.0208 20.8042 19.55 21 19 21H5ZM5.4 6H18.6L17.75 5H6.25L5.4 6Z"
+                  fill="#1E2430"
+                />
+              </g></svg
+            >Archivar
+          </li>
+          <li type="button" class="btn archivo">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <mask
+                id="mask0_632_11"
+                style="mask-type: alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="24"
+                height="24"
+              >
+                <rect width="24" height="24" />
+              </mask>
+              <g mask="url(#mask0_632_11)">
+                <path
+                  d="M5 19H6.425L16.2 9.225L14.775 7.8L5 17.575V19ZM3 21V16.75L16.2 3.575C16.4 3.39167 16.6208 3.25 16.8625 3.15C17.1042 3.05 17.3583 3 17.625 3C17.8917 3 18.15 3.05 18.4 3.15C18.65 3.25 18.8667 3.4 19.05 3.6L20.425 5C20.625 5.18333 20.7708 5.4 20.8625 5.65C20.9542 5.9 21 6.15 21 6.4C21 6.66667 20.9542 6.92083 20.8625 7.1625C20.7708 7.40417 20.625 7.625 20.425 7.825L7.25 21H3ZM15.475 8.525L14.775 7.8L16.2 9.225L15.475 8.525Z"
+                  fill="#1E2430"
+                />
+              </g></svg
+            >Cambiar nombre
+          </li>
+          <li type="button" class="btn archivo">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <mask
+                id="mask0_632_99"
+                style="mask-type: alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="24"
+                height="24"
+              >
+                <rect width="24" height="24" />
+              </mask>
+              <g mask="url(#mask0_632_99)">
+                <path
+                  d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
+                  fill="#1E2430"
+                />
+              </g></svg
+            >Eliminar
+          </li>
         </ul>
-      </div>
+        <!-- end menu dropdown -->
+        <div id="menuConteiner" class="menu">
+          <span>Hoy</span>
+          <div id="hoy"></div>
+          <span>Ayer</span>
+          <div id="ayer"></div>
+          <span>Últimos 7 días</span>
+          <div id="7dias"></div>
+          <span>Últimos 30 días</span>
+          <div id="30dias"></div>
+          <span>Ateriores</span>
+          <div id="anterior"></div>
+        </div>
+        <button type="button" class="btn archivo">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 29"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="inventory_2">
+              <mask
+                id="mask0_587_609"
+                style="mask-type: alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="24"
+                height="24"
+              >
+                <rect id="Bounding box" width="24" height="24" fill="#D9D9D9" />
+              </mask>
+              <g mask="url(#mask0_587_609)">
+                <path
+                  id="inventory_2_2"
+                  d="M5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V8.725C2.7 8.54167 2.45833 8.30417 2.275 8.0125C2.09167 7.72083 2 7.38333 2 7V4C2 3.45 2.19583 2.97917 2.5875 2.5875C2.97917 2.19583 3.45 2 4 2H20C20.55 2 21.0208 2.19583 21.4125 2.5875C21.8042 2.97917 22 3.45 22 4V7C22 7.38333 21.9083 7.72083 21.725 8.0125C21.5417 8.30417 21.3 8.54167 21 8.725V20C21 20.55 20.8042 21.0208 20.4125 21.4125C20.0208 21.8042 19.55 22 19 22H5ZM5 9V20H19V9H5ZM4 7H20V4H4V7ZM9 14H15V12H9V14Z"
+                  fill="#1E2430"
+                />
+              </g>
+            </g></svg
+          >Ver archivo
+        </button>
+      </aside>
       <div class="chat-area">
         <div class="chat-messages">
           <!-- Chat messages will go here -->
@@ -60,5 +181,13 @@
       </div>
     </div>
     <script src="script.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   </body>
 </html>
