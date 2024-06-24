@@ -219,7 +219,7 @@ p {
     overflow-y: auto;
     margin-inline: auto;
     max-width: 1240px;
-
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 3rem;
@@ -240,15 +240,25 @@ p {
       width: 80%;
       .ai-message {
         padding-inline: 34px;
+        position: relative;
+      }
+      .cursor {
+        display: none;
+        width: 10px;
+        height: 10px;
+        background-color: black;
+        border-radius: 50%;
+        vertical-align: middle;
+        margin-left: 5px;
       }
       .ai-info {
         display: none;
         grid-column: 1 / span 2;
-        // display: grid; =========================remove display: none
         grid-template-columns: auto 1fr;
         align-items: center;
         gap: 13px;
         width: 100%;
+        flex: 1;
         span {
           padding-inline: 24px;
           background: radial-gradient(#969aa4, #1e2430);
@@ -338,6 +348,16 @@ p {
       min-width: 200px;
       padding-block: 1rem;
       padding-inline: 1.5rem;
+      svg {
+        fill: $azul-300;
+      }
+      &:disabled {
+        color: #949494;
+        background-color: #d9dadc;
+        svg {
+          fill: #949494;
+        }
+      }
     }
   }
 }

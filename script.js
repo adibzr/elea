@@ -20,6 +20,26 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
+  const aiMessage = document.getElementById("aiMessage");
+  const nodes = Array.from(aiMessage.childNodes);
+  let currentIndex = 0;
+
+  aiMessage.innerHTML = "";
+  const cursor = document.createElement("span");
+  cursor.className = "cursor";
+  aiMessage.appendChild(cursor);
+
+  function revealNode() {
+    if (currentIndex < nodes.length) {
+      cursor.style.display = "inline-block";
+      const node = nodes[currentIndex];
+      aiMessage.insertBefore(node, cursor);
+      currentIndex++;
+      setTimeout(revealNode, 500);
+    } else {
+      cursor.remove();
+    }
+  }
   const menuItems = {
     today: document.getElementById("hoy"),
     yesterday: document.getElementById("ayer"),
@@ -144,6 +164,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     });
+    const generarReporte = document.getElementById("generate-reporte");
+    const analizando = document.getElementById("aiAnalizando");
+    generarReporte.addEventListener("click", () => {
+      analizando.style.display = "grid";
+      generarReporte.setAttribute("disabled", true);
+      // generarReporte.className += "disabled";
+      setTimeout(() => {
+        analizando.style.display = "none";
+        generarReporte.removeAttribute("disabled");
+      }, 3000);
+    });
   }
 
   conversations.forEach((conversation) => {
@@ -157,6 +188,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   addEventListeners();
+
+  revealNode();
 
   //helpers
   // Hide empty sections

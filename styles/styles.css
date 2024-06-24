@@ -202,6 +202,7 @@ p {
   overflow-y: auto;
   margin-inline: auto;
   max-width: 1240px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 3rem;
@@ -223,6 +224,16 @@ p {
 }
 .chat-area .chat-messages .ai-message-container .ai-message {
   padding-inline: 34px;
+  position: relative;
+}
+.chat-area .chat-messages .ai-message-container .cursor {
+  display: none;
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-left: 5px;
 }
 .chat-area .chat-messages .ai-message-container .ai-info {
   display: none;
@@ -231,6 +242,7 @@ p {
   align-items: center;
   gap: 13px;
   width: 100%;
+  flex: 1;
 }
 .chat-area .chat-messages .ai-message-container .ai-info span {
   padding-inline: 24px;
@@ -315,6 +327,16 @@ p {
   min-width: 200px;
   padding-block: 1rem;
   padding-inline: 1.5rem;
+}
+.chat-area .chat-input-container .generate-report svg {
+  fill: #0074c8;
+}
+.chat-area .chat-input-container .generate-report:disabled {
+  color: #949494;
+  background-color: #d9dadc;
+}
+.chat-area .chat-input-container .generate-report:disabled svg {
+  fill: #949494;
 }
 
 /*# sourceMappingURL=styles.css.map */
