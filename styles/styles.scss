@@ -107,8 +107,10 @@ p {
     #searchIcon {
       cursor: pointer;
       position: absolute;
-      fill: azul-300;
       right: 19px;
+    }
+    svg {
+      fill: $azul-300;
     }
   }
   .dropend .dropdown-toggle::after {

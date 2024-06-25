@@ -96,8 +96,10 @@ p {
 .sidebar .search-container #searchIcon {
   cursor: pointer;
   position: absolute;
-  fill: azul-300;
   right: 19px;
+}
+.sidebar .search-container svg {
+  fill: #0074c8;
 }
 .sidebar .dropend .dropdown-toggle::after {
   display: none;
