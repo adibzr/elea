@@ -1,4 +1,4 @@
-const conversations = [
+let conversations = [
   {
     title: "Conversación 1 - Título largo",
     chatMessages: [
@@ -73,15 +73,39 @@ function revealNode(node) {
  * @param {string} date - The date of the conversation.
  * @return {HTMLElement} The created conversation element.
  */
-function createConversation(title, chatMessages = [], date) {
+function createConversation(title, chatMessages = [], date, index) {
   const container = document.getElementById("menuConteiner");
   const div = document.createElement("div");
   div.className = "dropend menuItem";
 
-  const conversation = document.createElement("button");
+  const conversation = document.createElement("input");
   conversation.type = "button";
   conversation.className = "btn chat-title";
-  conversation.textContent = title;
+  conversation.value = title;
+  conversation.addEventListener("dblclick", () => {
+    const oldTitle = conversation.value;
+    conversation.value = "";
+    conversation.type = "input";
+    conversation.focus();
+    const newTilte = conversation.value;
+    conversation.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        if (conversation.value == "") {
+          conversation.value = oldtitle;
+        }
+        updateMenuItemName(index, newTilte);
+        conversation.blur();
+        conversation.type = "button";
+      }
+    });
+    conversation.addEventListener("blur", () => {
+      if (conversation.value == "") {
+        conversation.value = oldtitle;
+      }
+      updateMenuItemName(index, newTilte);
+      conversation.type = "button";
+    });
+  });
 
   const dropdownButton = document.createElement("button");
   dropdownButton.type = "button";
@@ -118,6 +142,31 @@ function createConversation(title, chatMessages = [], date) {
   const dropdownMenu = document.getElementById("dropdownMenu");
   const clonedElement = dropdownMenu.cloneNode(true);
 
+  clonedElement.children[1].addEventListener("click", () => {
+    const oldtitle = conversation.value;
+    conversation.value = "";
+    conversation.type = "input";
+    conversation.focus();
+    const newTilte = conversation.value;
+    conversation.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        if (conversation.value == "") {
+          conversation.value = oldtitle;
+        }
+        updateMenuItemName(index, newTilte);
+        conversation.blur();
+        conversation.type = "button";
+      }
+    });
+    conversation.addEventListener("blur", () => {
+      if (conversation.value == "") {
+        conversation.value = oldtitle;
+      }
+      const newTilte = conversation.value;
+      updateMenuItemName(index, newTilte);
+      conversation.type = "button";
+    });
+  });
   div.appendChild(clonedElement);
 
   container.appendChild(div);
@@ -155,6 +204,23 @@ function categorizeConversation(conversation) {
 }
 
 /**
+ * Updates the title of a menu item based on the provided index.
+ *
+ * @param {number} index - The index of the menu item to update.
+ * @param {string} newTitle - The new title to assign to the menu item.
+ * @return {void}
+ */
+function updateMenuItemName(index, newTitle) {
+  console.log("updateMenuItemName", index, newTitle);
+  const title = conversations[index].title;
+  if (title && newTitle && title !== newTitle) {
+    conversations[index].title = newTitle;
+  }
+
+  console.log(conversations);
+}
+
+/**
  * Adds event listeners to each conversation item and to the search icon.
  * When the search icon is clicked, it filters the menu items based on the value of the search input.
  * @return {void}
@@ -163,17 +229,16 @@ function addEventListeners() {
   // Add click event listeners to each conversation item
   Object.values(menuItems).forEach((item) => {
     item.addEventListener("click", (item) => {
-      item.target.className += " active";
-      console.log(item.target.innerHTML);
+      // item.target.className += " active";
+      // console.log(item.target.innerHTML);
     });
   });
 
-  // Add click event listener to the search icon and filters conversations
-
-  Object.values(menuItems).forEach((item) => {
-    const text = item.querySelectorAll("button")[0].innerText;
-    console.log(text);
-  });
+  // console.log(Object.values(menuItems));
+  // Object.values(menuItems).forEach((item) => {
+  //   const text = item.querySelectorAll("button")[0];
+  //   console.log(text);
+  // });
 
   // Add click event listener to the search icon and filters conversations
   searchIcon.addEventListener("click", () => {
@@ -224,9 +289,9 @@ function hideEmptyMenu() {
 }
 
 function loadConversations(conversation) {
-  conversation.forEach((conv) => {
+  conversation.forEach((conv, index) => {
     const date = conv.date;
-    const chat = createConversation(conv.title, conv.chatMessages, date);
+    const chat = createConversation(conv.title, conv.chatMessages, date, index);
     categorizeConversation(chat, date);
   });
 }
