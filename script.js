@@ -28,7 +28,7 @@ let conversations = [
     date: "2024-05-2",
   },
 ];
-const nodes = Array.from(aiMessage.childNodes);
+const nodes = Array.from(aiMessage.childNodes); // nodes to reveal
 
 const menuItems = {
   today: document.getElementById("hoy"),
@@ -41,7 +41,7 @@ const searchInput = document.getElementById("searchInput");
 const searchIcon = document.getElementById("searchIcon");
 
 /**
- * Reveals nodes one by one in a chat message.
+ * Reveals nodes one by one in a chat message. Added delay to simulate promise
  *
  * @return {void} This function does not return anything.
  */
@@ -82,6 +82,8 @@ function createConversation(title, chatMessages = [], date, index) {
   conversation.type = "button";
   conversation.className = "btn chat-title";
   conversation.value = title;
+
+  // add event doble click listener to edit chat name. Confirm on enter key or on blur
   conversation.addEventListener("dblclick", () => {
     const oldTitle = conversation.value;
     conversation.value = "";
@@ -141,7 +143,7 @@ function createConversation(title, chatMessages = [], date, index) {
 
   const dropdownMenu = document.getElementById("dropdownMenu");
   const clonedElement = dropdownMenu.cloneNode(true);
-
+  // add event change name button event listener to edit chat name. Confirm on enter key or on blur
   clonedElement.children[1].addEventListener("click", () => {
     const oldtitle = conversation.value;
     conversation.value = "";
