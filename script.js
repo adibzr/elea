@@ -91,7 +91,7 @@ function createConversation(title, chatMessages = [], date, index) {
     conversation.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         if (conversation.value == "") {
-          conversation.value = oldtitle;
+          conversation.value = oldTitle;
         }
         updateMenuItemName(index, newTilte);
         conversation.blur();
@@ -100,7 +100,7 @@ function createConversation(title, chatMessages = [], date, index) {
     });
     conversation.addEventListener("blur", () => {
       if (conversation.value == "") {
-        conversation.value = oldtitle;
+        conversation.value = oldTitle;
       }
       updateMenuItemName(index, newTilte);
       conversation.type = "button";
