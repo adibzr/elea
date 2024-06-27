@@ -38,31 +38,6 @@ p {
   height: 100%;
 }
 
-.dropdown-menu.show {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 1rem;
-}
-.dropdown-menu.show button {
-  font-weight: 600;
-  width: 100%;
-  text-align-last: justify;
-}
-.dropdown-menu.show button svg {
-  margin-right: 0.5rem;
-  fill: inherit;
-}
-.dropdown-menu.show button:hover {
-  color: #5596b4;
-  background-color: #e9f8ff;
-}
-.dropdown-menu.show button:hover > svg * {
-  fill: #5596b4;
-}
-
 .sidebar {
   width: 316px;
   background-color: #e9f8ff;
@@ -71,13 +46,22 @@ p {
   padding-inline: 1.5rem;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
 }
 .sidebar img {
   width: 235px;
   height: auto;
   justify-self: center;
   margin-bottom: 4rem;
+}
+.sidebar .offcanvas {
+  background-color: #e9f8ff;
+  height: 100% !important;
+}
+.sidebar .offcanvas-body {
+  height: 100% !important;
+}
+.sidebar .sidebar-wrapper {
+  height: 100%;
 }
 .sidebar .search-container {
   display: flex;
@@ -104,10 +88,6 @@ p {
 .sidebar .dropend .dropdown-toggle::after {
   display: none;
 }
-.sidebar .menu > div {
-  display: flex;
-  flex-direction: column;
-}
 .sidebar .menu .menuItem {
   max-width: 250px;
   color: #1e2430;
@@ -123,12 +103,10 @@ p {
 .sidebar .menu .menuItem button {
   white-space: nowrap;
 }
-.sidebar .menu .menuItem:hover,
-.sidebar .menu .menuItem .active {
+.sidebar .menu .menuItem:hover {
   background-color: #d2f1ff;
 }
-.sidebar .menu .menuItem:hover .dropdown-button,
-.sidebar .menu .menuItem .active .dropdown-button {
+.sidebar .menu .menuItem:hover .dropdown-button {
   display: inline-block;
 }
 .sidebar .menu .menuItem:first-child {
@@ -145,21 +123,67 @@ p {
   display: none;
   margin-inline: 0.5rem;
 }
+.sidebar .menu .active {
+  background-color: #d2f1ff;
+}
 .sidebar .menu span {
   font-size: 14px;
   font-weight: 700;
   color: #5596b4;
+}
+.sidebar .menu .dropdownMenu {
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 1rem;
+}
+.sidebar .menu .dropdownMenu button {
+  font-weight: 600;
+  width: 100%;
+  text-align-last: justify;
+  border-radius: 8px;
+  padding-inline: 12px 16px;
+  padding-block: 8px;
+}
+.sidebar .menu .dropdownMenu button svg {
+  margin-right: 0.5rem;
+}
+.sidebar .menu .dropdownMenu button:hover {
+  color: #0074c8;
+  background-color: #e9f8ff;
+}
+.sidebar .menu .dropdownMenu button:hover svg {
+  fill: #0074c8;
+}
+.sidebar .menu .dropdownMenu button:hover:last-child {
+  color: #c80000;
+  background-color: #ffe9e9;
+}
+.sidebar .menu .dropdownMenu button:hover:last-child svg {
+  fill: #c80000;
 }
 .sidebar .btn {
   border: none;
   padding: 0;
 }
 .sidebar .archivo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
   margin-top: 1rem;
   margin-bottom: 4.688rem;
 }
 .sidebar .archivo svg {
   margin-right: 7px;
+}
+@media screen and (max-width: 992px) {
+  .sidebar {
+    background: none;
+    position: absolute;
+  }
 }
 
 .chat-area {
@@ -168,13 +192,14 @@ p {
   flex-direction: column;
   color: #1e2430;
   background-color: #fafafa;
+  padding-inline: 0.75rem;
 }
 .chat-area .profile {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 1.5rem;
-  margin-right: 1.5rem;
+  margin-right: 0.75rem;
   margin-top: 3rem;
 }
 .chat-area .profile svg {
@@ -212,6 +237,7 @@ p {
 }
 .chat-area .chat-messages .user-message {
   width: fit-content;
+  max-width: 70%;
   background-color: #f2f2f2;
   padding: 24px;
   border-radius: 16px;

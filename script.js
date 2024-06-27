@@ -1,5 +1,6 @@
 let conversations = [
   {
+    id: 1,
     title: "Conversación 1 - Título largo",
     chatMessages: [
       "¡Hola! Quiero saber información sobre la siguiente molécula: adrenalina",
@@ -8,22 +9,26 @@ let conversations = [
     date: "2024-06-24",
   },
   {
+    id: 2,
     title: "Conversación 2",
     chatMessages: [],
     date: "2024-06-19",
   },
   {
-    title: "Conversación 2",
+    id: 3,
+    title: "Conversación 3",
     chatMessages: [],
     date: "2024-06-23",
   },
   {
-    title: "Conversación 3 - Título largo",
+    id: 4,
+    title: "Conversación 4 - Título largo",
     chatMessages: [],
     date: "2024-06-2",
   },
   {
-    title: "Conversación 3 - Título largo",
+    id: 5,
+    title: "Conversación 5 - Título largo",
     chatMessages: [],
     date: "2024-05-2",
   },
@@ -65,6 +70,45 @@ function revealNode(node) {
   });
 }
 
+// Create dropdown items with SVG icons
+const createDropdownItem = (svgPath, buttonText) => {
+  const button = document.createElement("button");
+  button.classList.add("dropdown-item");
+  button.setAttribute("type", "button");
+
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  svg.setAttribute("width", "24");
+  svg.setAttribute("height", "24");
+  svg.setAttribute("viewBox", "0 0 24 24");
+
+  const mask = document.createElementNS("http://www.w3.org/2000/svg", "mask");
+  mask.setAttribute("id", "mask0");
+  mask.setAttribute("style", "mask-type: alpha");
+  mask.setAttribute("maskUnits", "userSpaceOnUse");
+  mask.setAttribute("x", "0");
+  mask.setAttribute("y", "0");
+  mask.setAttribute("width", "24");
+  mask.setAttribute("height", "24");
+  const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  rect.setAttribute("width", "24");
+  rect.setAttribute("height", "24");
+  mask.appendChild(rect);
+
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  g.setAttribute("mask", "url(#mask0)");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", svgPath);
+  g.appendChild(path);
+
+  svg.appendChild(mask);
+  svg.appendChild(g);
+  button.appendChild(svg);
+  button.appendChild(document.createTextNode(buttonText));
+
+  return button;
+};
+
 /**
  * Creates a conversation element with a title and appends it to the menu container.
  *
@@ -73,10 +117,12 @@ function revealNode(node) {
  * @param {string} date - The date of the conversation.
  * @return {HTMLElement} The created conversation element.
  */
-function createConversation(title, chatMessages = [], date, index) {
+function createConversation(id, title, chatMessages = [], date, index) {
   const container = document.getElementById("menuConteiner");
+
   const div = document.createElement("div");
   div.className = "dropend menuItem";
+  div.id = `chat${id}`;
 
   const conversation = document.createElement("input");
   conversation.type = "button";
@@ -110,13 +156,11 @@ function createConversation(title, chatMessages = [], date, index) {
   });
 
   const dropdownButton = document.createElement("button");
-  dropdownButton.type = "button";
   dropdownButton.className =
     "btn dropdown-button dropdown-toggle dropdown-toggle-split";
   dropdownButton.setAttribute("data-bs-toggle", "dropdown");
   dropdownButton.setAttribute("aria-haspopup", "true");
   dropdownButton.setAttribute("aria-expanded", "false");
-  dropdownButton.setAttribute("data-bs-offset", `0,10`);
 
   const svgNS = "http://www.w3.org/2000/svg";
 
@@ -138,39 +182,56 @@ function createConversation(title, chatMessages = [], date, index) {
   svg.appendChild(path);
   dropdownButton.appendChild(svg);
 
-  div.appendChild(conversation);
-  div.appendChild(dropdownButton);
+  const dropdownMenu = document.createElement("div");
+  dropdownMenu.classList.add("dropdown-menu", "dropdownMenu");
+  dropdownMenu.setAttribute("id", "dropdownMenu");
 
-  const dropdownMenu = document.getElementById("dropdownMenu");
-  const clonedElement = dropdownMenu.cloneNode(true);
-  // add event change name button event listener to edit chat name. Confirm on enter key or on blur
-  clonedElement.children[1].addEventListener("click", () => {
-    const oldtitle = conversation.value;
-    conversation.value = "";
-    conversation.type = "input";
-    conversation.focus();
-    const newTilte = conversation.value;
-    conversation.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
+  const svgPaths = [
+    "M12 18L16 14L14.6 12.6L13 14.2V10H11V14.2L9.4 12.6L8 14L12 18ZM5 8V19H19V8H5ZM5 21C4.45 21 3.97917 20.8042 3.5875 20.4125C3.19583 20.0208 3 19.55 3 19V6.525C3 6.29167 3.0375 6.06667 3.1125 5.85C3.1875 5.63333 3.3 5.43333 3.45 5.25L4.7 3.725C4.88333 3.49167 5.1125 3.3125 5.3875 3.1875C5.6625 3.0625 5.95 3 6.25 3H17.75C18.05 3 18.3375 3.0625 18.6125 3.1875C18.8875 3.3125 19.1167 3.49167 19.3 3.725L20.55 5.25C20.7 5.43333 20.8125 5.63333 20.8875 5.85C20.9625 6.06667 21 6.29167 21 6.525V19C21 19.55 20.8042 20.0208 20.4125 20.4125C20.0208 20.8042 19.55 21 19 21H5ZM5.4 6H18.6L17.75 5H6.25L5.4 6Z",
+    "M5 19H6.425L16.2 9.225L14.775 7.8L5 17.575V19ZM3 21V16.75L16.2 3.575C16.4 3.39167 16.6208 3.25 16.8625 3.15C17.1042 3.05 17.3583 3 17.625 3C17.8917 3 18.15 3.05 18.4 3.15C18.65 3.25 18.8667 3.4 19.05 3.6L20.425 5C20.625 5.18333 20.7708 5.4 20.8625 5.65C20.9542 5.9 21 6.15 21 6.4C21 6.66667 20.9542 6.92083 20.8625 7.1625C20.7708 7.40417 20.625 7.625 20.425 7.825L7.25 21H3ZM15.475 8.525L14.775 7.8L16.2 9.225L15.475 8.525Z",
+    "M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z",
+  ];
+
+  // Button texts for the dropdown items
+  const buttonTexts = ["Archivar", "Cambiar nombre", "Eliminar"];
+
+  // Append dropdown items to the dropdown menu
+  svgPaths.forEach((path, index) => {
+    const item = createDropdownItem(path, buttonTexts[index]);
+
+    // add event change name button event listener to edit chat name. Confirm on enter key or on blur
+    item.addEventListener("click", () => {
+      const oldtitle = conversation.value;
+      conversation.value = "";
+      conversation.type = "input";
+      conversation.focus();
+      const newTilte = conversation.value;
+      conversation.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          if (conversation.value == "") {
+            conversation.value = oldtitle;
+          }
+          updateMenuItemName(index, newTilte);
+          conversation.blur();
+          conversation.type = "button";
+        }
+      });
+      conversation.addEventListener("blur", () => {
         if (conversation.value == "") {
           conversation.value = oldtitle;
         }
+        const newTilte = conversation.value;
         updateMenuItemName(index, newTilte);
-        conversation.blur();
         conversation.type = "button";
-      }
+      });
     });
-    conversation.addEventListener("blur", () => {
-      if (conversation.value == "") {
-        conversation.value = oldtitle;
-      }
-      const newTilte = conversation.value;
-      updateMenuItemName(index, newTilte);
-      conversation.type = "button";
-    });
-  });
-  div.appendChild(clonedElement);
 
+    dropdownMenu.appendChild(item);
+  });
+
+  div.appendChild(conversation);
+  div.appendChild(dropdownButton);
+  div.appendChild(dropdownMenu);
   container.appendChild(div);
 
   return { node: div, date };
@@ -229,18 +290,35 @@ function updateMenuItemName(index, newTitle) {
  */
 function addEventListeners() {
   // Add click event listeners to each conversation item
-  Object.values(menuItems).forEach((item) => {
-    item.addEventListener("click", (item) => {
-      // item.target.className += " active";
-      // console.log(item.target.innerHTML);
-    });
-  });
+  // console.log(Object.values(menuItems)[2].children);
 
-  // console.log(Object.values(menuItems));
-  // Object.values(menuItems).forEach((item) => {
-  //   const text = item.querySelectorAll("button")[0];
-  //   console.log(text);
-  // });
+  const menuItemsValues = Object.values(menuItems);
+  menuItemsValues.forEach((item) => {
+    if (item.hasChildNodes()) {
+      for (const key in item.children) {
+        if (Object.hasOwnProperty.call(item.children, key)) {
+          const element = item.children[key].getElementsByTagName("input")[0];
+          element.addEventListener("click", () => {
+            // Remove the "active" class from all elements
+            menuItemsValues.forEach((innerItem) => {
+              if (innerItem.hasChildNodes()) {
+                for (const innerKey in innerItem.children) {
+                  if (
+                    Object.hasOwnProperty.call(innerItem.children, innerKey)
+                  ) {
+                    innerItem.children[innerKey].classList.remove("active");
+                  }
+                }
+              }
+            });
+            // Add the "active" class to the clicked element
+            item.children[key].classList.add("active");
+            console.log(element);
+          });
+        }
+      }
+    }
+  });
 
   // Add click event listener to the search icon and filters conversations
   searchIcon.addEventListener("click", () => {
@@ -293,7 +371,13 @@ function hideEmptyMenu() {
 function loadConversations(conversation) {
   conversation.forEach((conv, index) => {
     const date = conv.date;
-    const chat = createConversation(conv.title, conv.chatMessages, date, index);
+    const chat = createConversation(
+      conv.id,
+      conv.title,
+      conv.chatMessages,
+      date,
+      index
+    );
     categorizeConversation(chat, date);
   });
 }
@@ -316,12 +400,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // Attach dropdown to body on show
   $(".dropend .dropdown-toggle").on("show.bs.dropdown", function () {
     const dropdownMenu = $(this).next(".dropdown-menu");
-    $("body").append(dropdownMenu.detach());
+    $("#menuConteiner").append(
+      dropdownMenu
+        .css({
+          position: "absolute",
+          left: $("#offcanvasNavbar").outerWidth() + $(this).outerWidth() + 10,
+          top: $(this).offset().top,
+        })
+        .detach()
+    );
   });
 
   // detach dropdown from body on hide
   $(".dropend .dropdown-toggle").on("hidden.bs.dropdown", function () {
     const dropdownMenu = $(this).next(".dropdown-menu");
-    $(".bs-example").append(dropdownMenu.detach());
+    $(".bs-example").append(
+      dropdownMenu
+        .css({
+          position: "",
+          left: "",
+          top: "",
+        })
+        .detach()
+    );
   });
 });
