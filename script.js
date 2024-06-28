@@ -132,9 +132,12 @@ function createConversation(id, title, chatMessages = [], date, index) {
   // add event doble click listener to edit chat name. Confirm on enter key or on blur
   conversation.addEventListener("dblclick", () => {
     const oldTitle = conversation.value;
-    conversation.value = "";
     conversation.type = "input";
     conversation.focus();
+    conversation.style.cursor = "text";
+    const length = conversation.value.length;
+    conversation.setSelectionRange(length, length);
+    conversation.scrollLeft = conversation.scrollWidth;
     const newTilte = conversation.value;
     conversation.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
@@ -202,9 +205,13 @@ function createConversation(id, title, chatMessages = [], date, index) {
     // add event change name button event listener to edit chat name. Confirm on enter key or on blur
     item.addEventListener("click", () => {
       const oldtitle = conversation.value;
-      conversation.value = "";
       conversation.type = "input";
       conversation.focus();
+      conversation.style.cursor = "text";
+      conversation.style.border = "1px solid black";
+      const length = conversation.value.length;
+      conversation.setSelectionRange(length, length);
+      conversation.scrollLeft = conversation.scrollWidth;
       const newTilte = conversation.value;
       conversation.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
