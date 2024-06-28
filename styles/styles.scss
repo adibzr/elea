@@ -105,19 +105,15 @@ p {
     display: none;
   }
   .menu {
-    display: flex;
-    flex-direction: column;
     .menuItem {
-      max-width: 250px;
+      max-width: 235px;
       color: $secondary-color;
       padding: 8px;
       cursor: pointer;
       border-radius: 8px;
-      transition: background-color 0.3s;
       display: flex;
       position: relative;
       overflow: hidden;
-      flex-shrink: 0;
       button {
         white-space: nowrap;
       }

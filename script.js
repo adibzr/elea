@@ -134,6 +134,7 @@ function createConversation(id, title, chatMessages = [], date, index) {
     const oldTitle = conversation.value;
     conversation.type = "input";
     conversation.focus();
+    conversation.style.border = "2px solid black";
     conversation.style.cursor = "text";
     const length = conversation.value.length;
     conversation.setSelectionRange(length, length);
@@ -146,6 +147,8 @@ function createConversation(id, title, chatMessages = [], date, index) {
         }
         updateMenuItemName(index, newTilte);
         conversation.blur();
+        conversation.style.border = "none";
+        conversation.style.cursor = "pointer";
         conversation.type = "button";
       }
     });
@@ -154,6 +157,8 @@ function createConversation(id, title, chatMessages = [], date, index) {
         conversation.value = oldTitle;
       }
       updateMenuItemName(index, newTilte);
+      conversation.style.border = "none";
+      conversation.style.cursor = "pointer";
       conversation.type = "button";
     });
   });
@@ -208,7 +213,8 @@ function createConversation(id, title, chatMessages = [], date, index) {
       conversation.type = "input";
       conversation.focus();
       conversation.style.cursor = "text";
-      conversation.style.border = "1px solid black";
+      conversation.style.border = "2px solid black";
+      div.style.backgroundColor = "#d2f1ff";
       const length = conversation.value.length;
       conversation.setSelectionRange(length, length);
       conversation.scrollLeft = conversation.scrollWidth;
@@ -220,6 +226,9 @@ function createConversation(id, title, chatMessages = [], date, index) {
           }
           updateMenuItemName(index, newTilte);
           conversation.blur();
+          conversation.style.border = "none";
+          conversation.style.cursor = "pointer";
+          div.style.backgroundColor = "transparent";
           conversation.type = "button";
         }
       });
@@ -229,6 +238,9 @@ function createConversation(id, title, chatMessages = [], date, index) {
         }
         const newTilte = conversation.value;
         updateMenuItemName(index, newTilte);
+        conversation.style.border = "none";
+        conversation.style.cursor = "pointer";
+        div.style.backgroundColor = "transparent";
         conversation.type = "button";
       });
     });
@@ -331,15 +343,38 @@ function addEventListeners() {
   searchIcon.addEventListener("click", () => {
     const filter = searchInput.value.toLowerCase();
     Object.values(menuItems).forEach((item) => {
-      const text = item.textContent.toLowerCase();
-      if (text.includes(filter)) {
-        item.style.display = "";
-      } else {
-        item.style.display = "none";
+      if (item.hasChildNodes()) {
+        for (const key in item.children) {
+          if (Object.hasOwnProperty.call(item.children, key)) {
+            const element = item.children[key].getElementsByTagName("input")[0];
+            const text = element.value.toLowerCase();
+            if (text.includes(filter)) {
+              item.children[key].style.display = "block";
+            } else {
+              item.children[key].style.display = "none";
+            }
+          }
+        }
       }
     });
-
     hideEmptyMenu();
+  });
+
+  // Add click event listener to the search input and filters conversations
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      const filter = searchInput.value.toLowerCase();
+      Object.values(menuItems).forEach((item) => {
+        const text = item.textContent.toLowerCase();
+        if (text.includes(filter)) {
+          item.style.display = "";
+        } else {
+          item.style.display = "none";
+        }
+      });
+
+      hideEmptyMenu();
+    }
   });
 
   //add click event to send button

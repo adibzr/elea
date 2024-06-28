@@ -88,21 +88,15 @@ p {
 .sidebar .dropend .dropdown-toggle::after {
   display: none;
 }
-.sidebar .menu {
-  display: flex;
-  flex-direction: column;
-}
 .sidebar .menu .menuItem {
-  max-width: 250px;
+  max-width: 235px;
   color: #1e2430;
   padding: 8px;
   cursor: pointer;
   border-radius: 8px;
-  transition: background-color 0.3s;
   display: flex;
   position: relative;
   overflow: hidden;
-  flex-shrink: 0;
   margin-bottom: 1rem;
 }
 .sidebar .menu .menuItem button {
