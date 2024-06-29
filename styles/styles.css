@@ -38,6 +38,13 @@ p {
   height: 100%;
 }
 
+img {
+  width: 235px;
+  height: auto;
+  justify-self: center;
+  margin-bottom: 4rem;
+}
+
 .sidebar {
   width: 316px;
   background-color: #e9f8ff;
@@ -46,12 +53,6 @@ p {
   padding-inline: 1.5rem;
   display: flex;
   flex-direction: column;
-}
-.sidebar img {
-  width: 235px;
-  height: auto;
-  justify-self: center;
-  margin-bottom: 4rem;
 }
 .sidebar .offcanvas {
   background-color: #e9f8ff;

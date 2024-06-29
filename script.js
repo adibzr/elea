@@ -293,13 +293,10 @@ function categorizeConversation(conversation) {
  * @return {void}
  */
 function updateMenuItemName(index, newTitle) {
-  console.log("updateMenuItemName", index, newTitle);
   const title = conversations[index].title;
   if (title && newTitle && title !== newTitle) {
     conversations[index].title = newTitle;
   }
-
-  console.log(conversations);
 }
 
 /**
@@ -308,9 +305,6 @@ function updateMenuItemName(index, newTitle) {
  * @return {void}
  */
 function addEventListeners() {
-  // Add click event listeners to each conversation item
-  // console.log(Object.values(menuItems)[2].children);
-
   const menuItemsValues = Object.values(menuItems);
   menuItemsValues.forEach((item) => {
     if (item.hasChildNodes()) {
@@ -318,7 +312,6 @@ function addEventListeners() {
         if (Object.hasOwnProperty.call(item.children, key)) {
           const element = item.children[key].getElementsByTagName("input")[0];
           element.addEventListener("click", () => {
-            // Remove the "active" class from all elements
             menuItemsValues.forEach((innerItem) => {
               if (innerItem.hasChildNodes()) {
                 for (const innerKey in innerItem.children) {
@@ -330,9 +323,7 @@ function addEventListeners() {
                 }
               }
             });
-            // Add the "active" class to the clicked element
             item.children[key].classList.add("active");
-            console.log(element);
           });
         }
       }
@@ -349,7 +340,7 @@ function addEventListeners() {
             const element = item.children[key].getElementsByTagName("input")[0];
             const text = element.value.toLowerCase();
             if (text.includes(filter)) {
-              item.children[key].style.display = "block";
+              item.children[key].style.display = "flex";
             } else {
               item.children[key].style.display = "none";
             }
@@ -357,7 +348,6 @@ function addEventListeners() {
         }
       }
     });
-    hideEmptyMenu();
   });
 
   // Add click event listener to the search input and filters conversations
@@ -365,15 +355,21 @@ function addEventListeners() {
     if (event.key === "Enter") {
       const filter = searchInput.value.toLowerCase();
       Object.values(menuItems).forEach((item) => {
-        const text = item.textContent.toLowerCase();
-        if (text.includes(filter)) {
-          item.style.display = "";
-        } else {
-          item.style.display = "none";
+        if (item.hasChildNodes()) {
+          for (const key in item.children) {
+            if (Object.hasOwnProperty.call(item.children, key)) {
+              const element =
+                item.children[key].getElementsByTagName("input")[0];
+              const text = element.value.toLowerCase();
+              if (text.includes(filter)) {
+                item.children[key].style.display = "flex";
+              } else {
+                item.children[key].style.display = "none";
+              }
+            }
+          }
         }
       });
-
-      hideEmptyMenu();
     }
   });
 
@@ -399,17 +395,6 @@ function addEventListeners() {
   });
 }
 
-function hideEmptyMenu() {
-  document.querySelectorAll(".menu > span").forEach((span) => {
-    const ul = span.nextElementSibling;
-    if (ul.style.display === "none") {
-      span.style.display = "none";
-    } else {
-      span.style.display = "block";
-    }
-  });
-}
-
 function loadConversations(conversation) {
   conversation.forEach((conv, index) => {
     const date = conv.date;
@@ -432,10 +417,10 @@ document.addEventListener("DOMContentLoaded", () => {
   //helpers
   // Hide empty sections
   document.querySelectorAll(".menu > span").forEach((span) => {
-    const ul = span.nextElementSibling;
-    if (ul.children.length === 0) {
+    const conv = span.nextElementSibling;
+    if (conv.children.length === 0) {
       span.style.display = "none";
-      ul.style.display = "none";
+      conv.style.display = "none";
     }
   });
 

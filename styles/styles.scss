@@ -53,6 +53,12 @@ p {
   line-height: 24px;
   height: 100%;
 }
+img {
+  width: 235px;
+  height: auto;
+  justify-self: center;
+  margin-bottom: 4rem;
+}
 
 .sidebar {
   width: 316px;
@@ -62,12 +68,6 @@ p {
   padding-inline: 1.5rem;
   display: flex;
   flex-direction: column;
-  img {
-    width: 235px;
-    height: auto;
-    justify-self: center;
-    margin-bottom: 4rem;
-  }
   .offcanvas {
     background-color: $primary-color;
     height: 100% !important;
