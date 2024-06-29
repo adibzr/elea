@@ -38,13 +38,6 @@ p {
   height: 100%;
 }
 
-img {
-  width: 235px;
-  height: auto;
-  justify-self: center;
-  margin-bottom: 4rem;
-}
-
 .sidebar {
   width: 316px;
   background-color: #e9f8ff;
@@ -53,6 +46,12 @@ img {
   padding-inline: 1.5rem;
   display: flex;
   flex-direction: column;
+}
+.sidebar img {
+  width: 235px;
+  height: auto;
+  justify-self: center;
+  margin-bottom: 4rem;
 }
 .sidebar .offcanvas {
   background-color: #e9f8ff;
@@ -211,6 +210,25 @@ img {
   height: 56px;
   border-radius: 56px;
 }
+.chat-area .profile span {
+  display: none;
+}
+.chat-area .profile .logout:hover,
+.chat-area .profile .help:hover {
+  background-color: #e9f8ff;
+  padding: 16px 16px 16px 12px;
+  border-radius: 1rem;
+}
+.chat-area .profile .logout:hover span,
+.chat-area .profile .help:hover span {
+  font-weight: 600;
+  color: #0074c8;
+  display: inline-block;
+}
+.chat-area .profile .logout:hover svg,
+.chat-area .profile .help:hover svg {
+  fill: #0074c8;
+}
 .chat-area .chat-empty {
   display: flex;
   display: none;
@@ -290,18 +308,18 @@ img {
     background-position: 100% 100%;
   }
 }
-.chat-area .chat-messages img {
-  width: 31px;
-  height: 30px;
-  flex-shrink: 0;
-  border-radius: 100px;
-}
 .chat-area .chat-messages .logo {
   border-radius: 100px;
   width: fit-content;
   height: fit-content;
   padding: 14px;
   background-color: #e9f8ff;
+}
+.chat-area .chat-messages .logo img {
+  width: 31px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 100px;
 }
 .chat-area .chat-input-container {
   display: grid;
@@ -342,6 +360,9 @@ img {
 .chat-area .chat-input-container .chat-input button .loading {
   display: none;
 }
+.chat-area .chat-input-container .chat-input button:hover {
+  background-color: #c7e7ff;
+}
 .chat-area .chat-input-container .generate-report {
   display: flex;
   justify-content: center;
@@ -359,6 +380,9 @@ img {
 }
 .chat-area .chat-input-container .generate-report svg {
   fill: #0074c8;
+}
+.chat-area .chat-input-container .generate-report:hover {
+  background-color: #c7e7ff;
 }
 .chat-area .chat-input-container .generate-report:disabled {
   color: #949494;

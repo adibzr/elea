@@ -1,7 +1,6 @@
 $primary-color: #e9f8ff;
 $secondary-color: #1e2430;
 $accent-color: #5596b4;
-
 $azul-300: #0074c8;
 $background-color: #d2f1ff;
 $user-message-color: #f2f2f2;
@@ -53,12 +52,6 @@ p {
   line-height: 24px;
   height: 100%;
 }
-img {
-  width: 235px;
-  height: auto;
-  justify-self: center;
-  margin-bottom: 4rem;
-}
 
 .sidebar {
   width: 316px;
@@ -68,6 +61,12 @@ img {
   padding-inline: 1.5rem;
   display: flex;
   flex-direction: column;
+  img {
+    width: 235px;
+    height: auto;
+    justify-self: center;
+    margin-bottom: 4rem;
+  }
   .offcanvas {
     background-color: $primary-color;
     height: 100% !important;
@@ -227,6 +226,25 @@ img {
       height: 56px;
       border-radius: 56px;
     }
+    span {
+      display: none;
+    }
+    .logout,
+    .help {
+      &:hover {
+        background-color: $primary-color;
+        padding: 16px 16px 16px 12px;
+        border-radius: 1rem;
+        span {
+          font-weight: $fw-semibold;
+          color: $azul-300;
+          display: inline-block;
+        }
+        svg {
+          fill: $azul-300;
+        }
+      }
+    }
   }
   .chat-empty {
     display: flex;
@@ -313,18 +331,18 @@ img {
       }
     }
 
-    img {
-      width: 31px;
-      height: 30px;
-      flex-shrink: 0;
-      border-radius: 100px;
-    }
     .logo {
       border-radius: 100px;
       width: fit-content;
       height: fit-content;
       padding: 14px;
       background-color: $primary-color;
+      img {
+        width: 31px;
+        height: 30px;
+        flex-shrink: 0;
+        border-radius: 100px;
+      }
     }
   }
 
@@ -365,6 +383,9 @@ img {
         .loading {
           display: none;
         }
+        &:hover {
+          background-color: #c7e7ff;
+        }
       }
     }
 
@@ -384,6 +405,9 @@ img {
       padding-inline: 1.5rem;
       svg {
         fill: $azul-300;
+      }
+      &:hover {
+        background-color: #c7e7ff;
       }
       &:disabled {
         color: #949494;
