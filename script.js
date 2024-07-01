@@ -6,13 +6,13 @@ let conversations = [
       "¡Hola! Quiero saber información sobre la siguiente molécula: adrenalina",
       "La adrenalina, también conocida como epinefrina, es una hormona y un neurotransmisor crucial en la respuesta de 'lucha o huida' del cuerpo humano. Aquí hay una descripción detallada:",
     ],
-    date: "2024-06-24",
+    date: "2024-07-01",
   },
   {
     id: 2,
     title: "Conversación 2",
     chatMessages: [],
-    date: "2024-06-19",
+    date: "2024-06-30",
   },
   {
     id: 3,
@@ -33,6 +33,7 @@ let conversations = [
     date: "2024-05-2",
   },
 ];
+
 const nodes = Array.from(aiMessage.childNodes); // nodes to reveal
 
 const menuItems = {
@@ -42,12 +43,10 @@ const menuItems = {
   prev30days: document.getElementById("30dias"),
   older: document.getElementById("anterior"),
 };
-const searchInput = document.getElementById("searchInput");
-const searchIcon = document.getElementById("searchIcon");
 
 /**
  * Reveals nodes one by one in a chat message. Added delay to simulate promise
- *
+ * @param {HTMLElement} node - The node to reveal.
  * @return {void} This function does not return anything.
  */
 
@@ -63,14 +62,17 @@ function revealNode(node) {
       aiMessage.insertBefore(node, cursor);
       if (index === nodes.length - 1) {
         cursor.remove();
-        send.style.display = "block";
-        loading.style.display = "none";
       }
     }, index * 300);
   });
 }
 
-// Create dropdown items with SVG icons
+/**
+ * Creates a dropdown item with an SVG icon and a button text.
+ * @param {string} svgPath - The path of the SVG icon.
+ * @param {object} buttonText - An object containing the text and id of the button.
+ * @return {HTMLElement} The created dropdown item.
+ */
 const createDropdownItem = (svgPath, buttonText) => {
   const button = document.createElement("button");
   button.classList.add("dropdown-item");
@@ -100,23 +102,23 @@ const createDropdownItem = (svgPath, buttonText) => {
   const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
   path.setAttribute("d", svgPath);
   g.appendChild(path);
-
   svg.appendChild(mask);
   svg.appendChild(g);
   button.appendChild(svg);
-  button.appendChild(document.createTextNode(buttonText));
-
+  button.appendChild(document.createTextNode(buttonText.name));
+  button.setAttribute("id", buttonText.id);
   return button;
 };
 
 /**
  * Creates a conversation element with a title and appends it to the menu container.
- *
  * @param {string} title - The title of the conversation.
  * @param {string[]} chatMessages - The chat messages of the conversation.
  * @param {string} date - The date of the conversation.
+ * @param {number} index - The index of the conversation.
  * @return {HTMLElement} The created conversation element.
  */
+
 function createConversation(id, title, chatMessages = [], date, index) {
   const container = document.getElementById("menuConteiner");
 
@@ -129,7 +131,7 @@ function createConversation(id, title, chatMessages = [], date, index) {
   conversation.className = "btn chat-title";
   conversation.value = title;
 
-  // add event doble click listener to edit chat name. Confirm on enter key or on blur
+  // add doble click eventListener to change name button. Confirm on enter key or on blur
   conversation.addEventListener("dblclick", () => {
     const oldTitle = conversation.value;
     conversation.type = "input";
@@ -192,7 +194,6 @@ function createConversation(id, title, chatMessages = [], date, index) {
 
   const dropdownMenu = document.createElement("div");
   dropdownMenu.classList.add("dropdown-menu", "dropdownMenu");
-  dropdownMenu.setAttribute("id", "dropdownMenu");
 
   const svgPaths = [
     "M12 18L16 14L14.6 12.6L13 14.2V10H11V14.2L9.4 12.6L8 14L12 18ZM5 8V19H19V8H5ZM5 21C4.45 21 3.97917 20.8042 3.5875 20.4125C3.19583 20.0208 3 19.55 3 19V6.525C3 6.29167 3.0375 6.06667 3.1125 5.85C3.1875 5.63333 3.3 5.43333 3.45 5.25L4.7 3.725C4.88333 3.49167 5.1125 3.3125 5.3875 3.1875C5.6625 3.0625 5.95 3 6.25 3H17.75C18.05 3 18.3375 3.0625 18.6125 3.1875C18.8875 3.3125 19.1167 3.49167 19.3 3.725L20.55 5.25C20.7 5.43333 20.8125 5.63333 20.8875 5.85C20.9625 6.06667 21 6.29167 21 6.525V19C21 19.55 20.8042 20.0208 20.4125 20.4125C20.0208 20.8042 19.55 21 19 21H5ZM5.4 6H18.6L17.75 5H6.25L5.4 6Z",
@@ -200,51 +201,54 @@ function createConversation(id, title, chatMessages = [], date, index) {
     "M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z",
   ];
 
-  // Button texts for the dropdown items
-  const buttonTexts = ["Archivar", "Cambiar nombre", "Eliminar"];
+  // Button texts for dropdown items
+  const buttonTexts = [
+    { name: "Archivar", id: "archive" },
+    { name: "Cambiar Nombre", id: "rename" },
+    { name: "Eliminar", id: "delete" },
+  ];
 
-  // Append dropdown items to the dropdown menu
   svgPaths.forEach((path, index) => {
     const item = createDropdownItem(path, buttonTexts[index]);
-
-    // add event change name button event listener to edit chat name. Confirm on enter key or on blur
-    item.addEventListener("click", () => {
-      const oldtitle = conversation.value;
-      conversation.type = "input";
-      conversation.focus();
-      conversation.style.cursor = "text";
-      conversation.style.border = "2px solid black";
-      div.style.backgroundColor = "#d2f1ff";
-      const length = conversation.value.length;
-      conversation.setSelectionRange(length, length);
-      conversation.scrollLeft = conversation.scrollWidth;
-      const newTilte = conversation.value;
-      conversation.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
+    // add change name button eventListener. Confirm on enter key or on blur
+    if (buttonTexts[index].id == "rename") {
+      item.addEventListener("click", () => {
+        const oldtitle = conversation.value;
+        conversation.type = "input";
+        conversation.focus();
+        conversation.style.cursor = "text";
+        conversation.style.border = "2px solid black";
+        div.style.backgroundColor = "#d2f1ff";
+        const length = conversation.value.length;
+        conversation.setSelectionRange(length, length);
+        conversation.scrollLeft = conversation.scrollWidth;
+        const newTilte = conversation.value;
+        conversation.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            if (conversation.value == "") {
+              conversation.value = oldtitle;
+            }
+            updateMenuItemName(index, newTilte);
+            conversation.blur();
+            conversation.style.border = "none";
+            conversation.style.cursor = "pointer";
+            div.style.backgroundColor = "transparent";
+            conversation.type = "button";
+          }
+        });
+        conversation.addEventListener("blur", () => {
           if (conversation.value == "") {
             conversation.value = oldtitle;
           }
+          const newTilte = conversation.value;
           updateMenuItemName(index, newTilte);
-          conversation.blur();
           conversation.style.border = "none";
           conversation.style.cursor = "pointer";
           div.style.backgroundColor = "transparent";
           conversation.type = "button";
-        }
+        });
       });
-      conversation.addEventListener("blur", () => {
-        if (conversation.value == "") {
-          conversation.value = oldtitle;
-        }
-        const newTilte = conversation.value;
-        updateMenuItemName(index, newTilte);
-        conversation.style.border = "none";
-        conversation.style.cursor = "pointer";
-        div.style.backgroundColor = "transparent";
-        conversation.type = "button";
-      });
-    });
-
+    }
     dropdownMenu.appendChild(item);
   });
 
@@ -300,11 +304,104 @@ function updateMenuItemName(index, newTitle) {
 }
 
 /**
- * Adds event listeners to each conversation item and to the search icon.
- * When the search icon is clicked, it filters the menu items based on the value of the search input.
+ * Adds event listeners to the search input and icon. When the icon is clicked or enter key is pressed,
+ * it filters the menu items based on the value of the search input. When the
  * @return {void}
  */
-function addEventListeners() {
+function searchEventListeners() {
+  const searchInput = document.getElementById("searchInput");
+  const searchIcon = document.getElementById("searchIcon");
+
+  searchIcon.addEventListener("click", () => {
+    const filter = searchInput.value.toLowerCase();
+    Object.values(menuItems).forEach((item) => {
+      if (item.hasChildNodes()) {
+        for (const key in item.children) {
+          if (Object.hasOwnProperty.call(item.children, key)) {
+            const element = item.children[key].getElementsByTagName("input")[0];
+            const text = element.value.toLowerCase();
+            if (text.includes(filter)) {
+              item.children[key].style.display = "flex";
+            } else {
+              item.children[key].style.display = "none";
+            }
+          }
+        }
+      }
+    });
+  });
+
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      const filter = searchInput.value.toLowerCase();
+      Object.values(menuItems).forEach((item) => {
+        if (item.hasChildNodes()) {
+          for (const key in item.children) {
+            if (Object.hasOwnProperty.call(item.children, key)) {
+              const element =
+                item.children[key].getElementsByTagName("input")[0];
+              const text = element.value.toLowerCase();
+              if (text.includes(filter)) {
+                item.children[key].style.display = "flex";
+              } else {
+                item.children[key].style.display = "none";
+              }
+            }
+          }
+        }
+      });
+    }
+  });
+}
+
+/**
+ * Adds event listeners to the send button and the chat input.
+ * When the send button is clicked or enter key is pressed,
+ * it sends the user's message and shows a loading animation.
+ * After 1 second it hides the loading animation and shows the send button again.
+ * @return {void}
+ */
+function sendEventListeners() {
+  const send = document.getElementById("send");
+  const loading = document.getElementById("loading");
+  const input = document.getElementById("chatInput");
+  const chatMessage = document.getElementById("chat-messages");
+  const chatEmpty = document.getElementById("chat-empty");
+
+  send.addEventListener("click", () => {
+    const message = input.value; //user's message
+    input.value = "";
+    send.style.display = "none";
+    loading.style.display = "block";
+    chatMessage.style.display = "flex";
+    chatEmpty.style.display = "none";
+    setTimeout(() => {
+      send.style.display = "block";
+      loading.style.display = "none";
+    }, 1000);
+  });
+
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      const message = event.target.value; //user's message
+      event.target.value = "";
+      send.style.display = "none";
+      loading.style.display = "block";
+      chatMessage.style.display = "flex";
+      chatEmpty.style.display = "none";
+      setTimeout(() => {
+        send.style.display = "block";
+        loading.style.display = "none";
+      }, 1000);
+    }
+  });
+}
+
+/**
+ * Adds event listeners to each conversation item
+ * @return {void}
+ */
+function convEventListeners() {
   const menuItemsValues = Object.values(menuItems);
   menuItemsValues.forEach((item) => {
     if (item.hasChildNodes()) {
@@ -329,74 +426,35 @@ function addEventListeners() {
       }
     }
   });
+}
 
-  // Add click event listener to the search icon and filters conversations
-  searchIcon.addEventListener("click", () => {
-    const filter = searchInput.value.toLowerCase();
-    Object.values(menuItems).forEach((item) => {
-      if (item.hasChildNodes()) {
-        for (const key in item.children) {
-          if (Object.hasOwnProperty.call(item.children, key)) {
-            const element = item.children[key].getElementsByTagName("input")[0];
-            const text = element.value.toLowerCase();
-            if (text.includes(filter)) {
-              item.children[key].style.display = "flex";
-            } else {
-              item.children[key].style.display = "none";
-            }
-          }
-        }
-      }
-    });
-  });
-
-  // Add click event listener to the search input and filters conversations
-  searchInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      const filter = searchInput.value.toLowerCase();
-      Object.values(menuItems).forEach((item) => {
-        if (item.hasChildNodes()) {
-          for (const key in item.children) {
-            if (Object.hasOwnProperty.call(item.children, key)) {
-              const element =
-                item.children[key].getElementsByTagName("input")[0];
-              const text = element.value.toLowerCase();
-              if (text.includes(filter)) {
-                item.children[key].style.display = "flex";
-              } else {
-                item.children[key].style.display = "none";
-              }
-            }
-          }
-        }
-      });
-    }
-  });
-
-  //add click event to send button
-  const send = document.getElementById("send");
-  const loading = document.getElementById("loading");
-  send.addEventListener("click", () => {
-    const message = document.getElementById("chatInput").value;
-    send.style.display = "none";
-    loading.style.display = "block";
-  });
-
-  //add event listener to generate report button
-  const generarReporte = document.getElementById("generate-reporte");
+/**
+ * Generates event listeners for the "Generate Report" button
+ * that manages the display of different elements during the report generation process.
+ *
+ * @return {void}
+ */
+function generateReporEventListeners() {
+  const generarReporte = document.getElementById("generate-report");
+  const generandoReporte = document.getElementById("generating-report");
+  const descargarReporte = document.getElementById("download-report");
   const analizando = document.getElementById("aiAnalizando");
+  const reportSuccess = document.getElementById("report-success");
   generarReporte.addEventListener("click", () => {
     analizando.style.display = "grid";
-    generarReporte.setAttribute("disabled", true);
+    generarReporte.style.display = "none";
+    generandoReporte.style.display = "flex";
     setTimeout(() => {
+      generandoReporte.style.display = "none";
+      descargarReporte.style.display = "flex";
       analizando.style.display = "none";
-      generarReporte.removeAttribute("disabled");
+      reportSuccess.style.display = "grid";
     }, 3000);
   });
 }
 
-function loadConversations(conversation) {
-  conversation.forEach((conv, index) => {
+document.addEventListener("DOMContentLoaded", () => {
+  conversations.forEach((conv, index) => {
     const date = conv.date;
     const chat = createConversation(
       conv.id,
@@ -407,11 +465,10 @@ function loadConversations(conversation) {
     );
     categorizeConversation(chat, date);
   });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  loadConversations(conversations);
-  addEventListeners();
+  searchEventListeners();
+  convEventListeners();
+  generateReporEventListeners();
+  sendEventListeners();
   revealNode(nodes);
 
   //helpers

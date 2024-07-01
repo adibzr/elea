@@ -1,6 +1,7 @@
 $primary-color: #e9f8ff;
 $secondary-color: #1e2430;
 $accent-color: #5596b4;
+$azul-200: #0033a0;
 $azul-300: #0074c8;
 $background-color: #d2f1ff;
 $user-message-color: #f2f2f2;
@@ -54,7 +55,7 @@ p {
 }
 
 .sidebar {
-  width: 316px;
+  min-width: 325px;
   background-color: $primary-color;
   color: $secondary-color;
   padding-top: 1rem;
@@ -66,6 +67,7 @@ p {
     height: auto;
     justify-self: center;
     margin-bottom: 4rem;
+    margin-inline: auto;
   }
   .offcanvas {
     background-color: $primary-color;
@@ -73,6 +75,11 @@ p {
   }
   .offcanvas-body {
     height: 100% !important;
+    > div {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
   }
   .sidebar-wrapper {
     height: 100%;
@@ -104,15 +111,16 @@ p {
     display: none;
   }
   .menu {
+    overflow-y: auto;
+    max-height: calc(100vh - 450px) !important;
     .menuItem {
-      max-width: 235px;
+      max-width: 230px;
       color: $secondary-color;
       padding: 8px;
       cursor: pointer;
       border-radius: 8px;
       display: flex;
       position: relative;
-      overflow: hidden;
       button {
         white-space: nowrap;
       }
@@ -177,6 +185,9 @@ p {
             }
           }
         }
+      }
+      @media (max-width: 992px) {
+        left: 190px !important;
       }
     }
   }
@@ -248,28 +259,26 @@ p {
   }
   .chat-empty {
     display: flex;
-
-    // hide the chat empty state
-    display: none;
-
     height: 100%;
     font-size: $fs-600;
     text-align: center;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-inline: auto;
+    max-width: 1240px;
     p {
       line-height: 30px;
       margin-top: 30px;
     }
   }
   .chat-messages {
+    display: none;
     flex: 1;
     overflow-y: auto;
     margin-inline: auto;
     max-width: 1240px;
     width: 100%;
-    display: flex;
     flex-direction: column;
     gap: 3rem;
     margin-block: 4.813rem 5.438rem;
@@ -277,7 +286,6 @@ p {
     .user-message {
       width: fit-content;
       max-width: 70%;
-
       background-color: $user-message-color;
       padding: 24px;
       border-radius: 16px;
@@ -303,31 +311,48 @@ p {
         vertical-align: middle;
         margin-left: 5px;
       }
-      .ai-info {
-        display: none;
-        grid-column: 1 / span 2;
-        grid-template-columns: auto 1fr;
-        align-items: center;
-        gap: 13px;
-        width: 100%;
-        flex: 1;
-        span {
-          padding-inline: 24px;
-          background: radial-gradient(#969aa4, #1e2430);
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-size: 5%;
-          animation: animate 20s linear infinite;
+    }
+    .ai-analizando {
+      display: none;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 13px;
+      width: 100%;
+      flex: 1;
+      span {
+        padding-inline: 24px;
+        background: radial-gradient(#969aa4, #1e2430);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 5%;
+        animation: animate 20s linear infinite;
+      }
+      @keyframes animate {
+        0% {
+          background-position: 0% 0%;
         }
-        @keyframes animate {
-          0% {
-            background-position: 0% 0%;
-          }
-          100% {
-            background-position: 100% 100%;
-          }
+        100% {
+          background-position: 100% 100%;
         }
+      }
+    }
+    .report-success {
+      display: none;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 1em;
+      width: 100%;
+      flex: 1;
+      p,
+      a {
+        font-size: $fs-500;
+        padding-inline: 24px;
+      }
+      a {
+        text-decoration: none;
+        color: $azul-300;
+        font-weight: $fw-semibold;
       }
     }
 
@@ -382,6 +407,7 @@ p {
         }
         .loading {
           display: none;
+          margin: 8px 9px;
         }
         &:hover {
           background-color: #c7e7ff;
@@ -406,6 +432,7 @@ p {
       svg {
         fill: $azul-300;
       }
+
       &:hover {
         background-color: #c7e7ff;
       }
@@ -415,6 +442,26 @@ p {
         svg {
           fill: #949494;
         }
+      }
+    }
+    .generating-report {
+      display: none;
+    }
+    .download-report {
+      background-color: $azul-200;
+      display: none;
+      color: #fff;
+      &:hover {
+        background-color: $azul-200;
+      }
+    }
+    @media screen and (max-width: 992px) {
+      display: block;
+      .generate-report,
+      .generating-report,
+      .download-report {
+        width: 100%;
+        margin-inline: 2rem;
       }
     }
   }

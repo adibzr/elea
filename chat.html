@@ -267,7 +267,7 @@
             <span>Ayuda</span>
           </div>
         </nav>
-        <div class="chat-empty">
+        <div id="chat-empty" class="chat-empty">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="181"
@@ -309,8 +309,7 @@
             una nueva conversación.
           </p>
         </div>
-
-        <div class="chat-messages">
+        <div id="chat-messages" class="chat-messages">
           <!-- user -->
           <div class="user-message">
             ¡Hola! Quiero saber información sobre la siguiente molécula:
@@ -351,12 +350,24 @@
                 </ul>
               </ol>
             </div>
-            <!--filled by AI end -->
-            <div id="aiAnalizando" class="ai-info">
-              <div class="logo">
-                <img src="images/short_logo.png" alt="logo" />
-              </div>
-              <span>Analizando</span>
+          </div>
+          <!--filled by AI end -->
+          <div id="aiAnalizando" class="ai-analizando">
+            <div class="logo">
+              <img src="images/short_logo.png" alt="logo" />
+            </div>
+            <span>Analizando</span>
+          </div>
+          <div id="report-success" class="report-success">
+            <div class="logo">
+              <img src="images/short_logo.png" alt="logo" />
+            </div>
+            <div>
+              <p>
+                Se ha generado exitosamente un reporte y está listo para ser
+                descargado. ¿Necesitas hacer algo más?
+              </p>
+              <a href="#">Descargar Reporte sobre Adrenalina</a>
             </div>
           </div>
         </div>
@@ -411,7 +422,7 @@
               </svg>
             </button>
           </div>
-          <button id="generate-reporte" class="generate-report">
+          <button id="generate-report" class="generate-report">
             Generar reporte
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -423,6 +434,63 @@
               <path
                 d="M2 20C1.45 20 0.979167 19.8042 0.5875 19.4125C0.195833 19.0208 0 18.55 0 18V4C0 3.45 0.195833 2.97917 0.5875 2.5875C0.979167 2.19583 1.45 2 2 2H6.2C6.41667 1.4 6.77917 0.916667 7.2875 0.55C7.79583 0.183333 8.36667 0 9 0C9.63333 0 10.2042 0.183333 10.7125 0.55C11.2208 0.916667 11.5833 1.4 11.8 2H16C16.55 2 17.0208 2.19583 17.4125 2.5875C17.8042 2.97917 18 3.45 18 4V18C18 18.55 17.8042 19.0208 17.4125 19.4125C17.0208 19.8042 16.55 20 16 20H2ZM2 18H16V4H2V18ZM4 16H11V14H4V16ZM4 12H14V10H4V12ZM4 8H14V6H4V8ZM9 3.25C9.21667 3.25 9.39583 3.17917 9.5375 3.0375C9.67917 2.89583 9.75 2.71667 9.75 2.5C9.75 2.28333 9.67917 2.10417 9.5375 1.9625C9.39583 1.82083 9.21667 1.75 9 1.75C8.78333 1.75 8.60417 1.82083 8.4625 1.9625C8.32083 2.10417 8.25 2.28333 8.25 2.5C8.25 2.71667 8.32083 2.89583 8.4625 3.0375C8.60417 3.17917 8.78333 3.25 9 3.25Z"
               />
+            </svg>
+          </button>
+          <button
+            id="generating-report"
+            class="generate-report generating-report"
+          >
+            Generando reporte
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <mask
+                id="mask0_501_145"
+                style="mask-type: alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="24"
+                height="24"
+              >
+                <rect width="24" height="24" />
+              </mask>
+              <g mask="url(#mask0_501_145)">
+                <path
+                  d="M15.3 16.7L16.7 15.3L13 11.6V7H11V12.4L15.3 16.7ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22ZM12 20C14.2167 20 16.1042 19.2208 17.6625 17.6625C19.2208 16.1042 20 14.2167 20 12C20 9.78333 19.2208 7.89583 17.6625 6.3375C16.1042 4.77917 14.2167 4 12 4C9.78333 4 7.89583 4.77917 6.3375 6.3375C4.77917 7.89583 4 9.78333 4 12C4 14.2167 4.77917 16.1042 6.3375 17.6625C7.89583 19.2208 9.78333 20 12 20Z"
+                />
+              </g>
+            </svg>
+          </button>
+          <button id="download-report" class="generate-report download-report">
+            Descargar reporte
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <mask
+                id="mask0_501_101"
+                style="mask-type: alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="24"
+                height="24"
+              >
+                <rect width="24" height="24" />
+              </mask>
+              <g mask="url(#mask0_501_101)">
+                <path
+                  d="M18 21L22 17L20.6 15.6L19 17.2V13.025H17V17.2L15.4 15.6L14 17L18 21ZM14 24V22H22V24H14ZM6 20C5.45 20 4.97917 19.8042 4.5875 19.4125C4.19583 19.0208 4 18.55 4 18V4C4 3.45 4.19583 2.97917 4.5875 2.5875C4.97917 2.19583 5.45 2 6 2H13L19 8V11.025H17V9H12V4H6V18H12V20H6Z"
+                  fill="white"
+                />
+              </g>
             </svg>
           </button>
         </div>
