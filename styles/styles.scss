@@ -231,13 +231,20 @@ p {
   color: $secondary-color;
   background-color: #fafafa;
   padding-inline: 0.75rem;
+  .chat-container {
+    height: 100%;
+    overflow-y: auto;
+  }
   .profile {
     display: flex;
+    position: sticky;
+    top: 0;
+    background-color: #fafafa;
     align-items: center;
     justify-content: flex-end;
     gap: 1.5rem;
     margin-right: 0.75rem;
-    margin-top: 3rem;
+    padding-top: 3rem;
     svg {
       cursor: pointer;
     }
@@ -268,7 +275,7 @@ p {
   }
   .chat-empty {
     display: flex;
-    height: 100%;
+    height: 75%;
     font-size: $fs-600;
     text-align: center;
     flex-direction: column;
@@ -284,7 +291,6 @@ p {
   .chat-messages {
     display: none;
     flex: 1;
-    overflow-y: auto;
     margin-inline: auto;
     max-width: 1240px;
     width: 100%;
